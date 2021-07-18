@@ -1,28 +1,38 @@
-//package database;
+package database;
 
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class DatabasePrecise {
 	
-	private String[] database = new String[] {"lol","loooool","lmao","lol xd","lal"};	
-	private String[] storage = new String[] {"", "", "", "", "", "", ""};
+	ArrayList<String> threeLetter = new ArrayList<String>();
+	ArrayList<String> storage = new ArrayList<String>();
 	
-	
-	
-	public void searchDatabase(String input, int length) {
-		for (int y = 0; database.length - 1 >= y ; y++) {
+	public void searchDatabase(String input) {
+		
+		int count;
+		
+		for (int y = 0; threeLetter.size() > y ; y++) {
 			
-			for (int z = 0; length - 1 >= z; z++) {
+			count = input.length();
 			
-				if ((database[y].charAt(z) == input.charAt(z)) || ((input.charAt(z) == '_') && (input.charAt(z) != ' ')) && (input.length() == database[y].length())) {
+			for (int z = 0; input.length() > z; z++) {
 				
-					storage[y] = database[y];
+				if ((threeLetter.get(y).charAt(z) == input.charAt(z)) || (input.charAt(z) == '_' && threeLetter.get(y).charAt(z) != ' ') && input.length() == threeLetter.get(y).length()) {
+					
+					count--;
 				
 				} else {
-				
-					storage[y] = "";
+					
 					break;
+					
 				}
+				
+			}
+			
+			if (count == 0) {
+				
+				storage.add(threeLetter.get(y));
 				
 			}
 			
@@ -30,10 +40,21 @@ public class DatabasePrecise {
       
 	}
 	
+	public void addItems() {
+		
+		threeLetter.add("car");
+		threeLetter.add("bar");
+		threeLetter.add("art");
+		threeLetter.add("arc");
+		threeLetter.add("bad");
+		
+	}
+	
 	public static void main(String[] args) {
 		
 		DatabasePrecise data = new DatabasePrecise();
-
+		data.addItems();
+		
 		System.out.print("input the string: ");
 		@SuppressWarnings("resource")
 		Scanner scan = new Scanner(System.in);
@@ -41,12 +62,10 @@ public class DatabasePrecise {
 		String in = scan.nextLine();
 
       System.out.println("your input: " + in);
-		data.searchDatabase(in, in.length());
-
-		for (int x = 0; x < 5; x++) {
-			System.out.println(data.storage[x]);
-		}
-
+		data.searchDatabase(in);
+		
+		System.out.println(data.storage);
+		
 	}
 
 }
