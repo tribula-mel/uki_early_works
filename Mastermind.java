@@ -1,55 +1,132 @@
 package experimentaion;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Mastermind {
 	
-	static Scanner in = new Scanner(System.in);
-	static int matches = 0;
-
-	static String colors[] = {"green", "yellow", "blue" , "red", "orange", "brown", "black", "white" ,"purple"};
+	private String colors[] = {"green", "yellow", "blue", "red", "orange", "brown", "black", "white","purple"};
+	private String gameColors[] = new String[] {"", "", "", "", ""};
+	private String inputColors[] = new String[] {"", "", "", "", ""};
+	private Scanner in = new Scanner(System.in);
+	private int match[] = new int[] {0, 0, 0, 0, 0};
+		
+	public Mastermind() {
+		
+	}
 	
-	public static int searchArray(int x, String y) {
+	public void inputColors() {
 		
-		int match = 0;
-		
-		for (int i = 0; i <= 8; i++) {
+		for(int i = 0; i <= 4; i++) {
 			
-			if (colors[i].matches(y)) {
-				match = 1;
+			System.out.println("\nType in color " + (i + 1 ));
+			String input = in.next();
+			inputColors[i] = input;
+			
+		}
+
+	}
+	
+	public void searchArray() {
+		
+		for (int l = 0; l <=4; l++) {
+			match[l] = 0;
+		}
+		
+		for (int x = 0; x <= 4; x++) {
+			
+			for (int y = 0; y <= 4; y++) {
+				
+				if (inputColors[y].matches(gameColors[x])) {
+					
+					match[y] = 1;
+					
+				}
+				
+			}
+			
+		}
+		
+		for (int i = 0; i <= 4; i++) {
+			
+			if (inputColors[i].matches(gameColors[i])) {
+				match[i] = 2;
+				
+			}
+			
+		}
+		
+	}
+	
+	public void rng() {
+		
+		Random rand = new Random();
+		LocalDateTime time = LocalDateTime.now();
+		DateTimeFormatter date = DateTimeFormatter.ofPattern("ss");
+		String formattedDate = time.format(date);
+		long seed = Long.parseLong(formattedDate);
+		rand.setSeed(seed);
+		
+		for (int i = 0; i <= 4; i++) {
+			
+			while (gameColors[i].equals("")) {
+				
+				int rng = rand.nextInt(8) + 1;
+				gameColors[i] = colors[rng]; 
+				colors[rng] = "";
+			
 			}
 		}
+	}
+	
+	public int win(int tries) {
+		tries = 0;
+		System.out.print("\nYou Win!! The correct sequence was: ");
 		
-		if (colors[x].matches(y)) {
-			colors[x] = " ";
-			matches++;
-			match = 2;
+		for (int z = 0; z <= 4; z++) {
+			
+			System.out.print(gameColors[z] + " ");
+			
 		}
 		
-		return match;
+		return tries;
+	}
+	
+	public void inputAndSearch(int tries) {
 		
+		for (int i = 0; i < tries; i++) {
+			inputColors();
+			searchArray();
+		
+			System.out.print("\nYour score is : ");
+			for (int u = 0; u <= 4; u++) {
+			
+			System.out.print(match[u]);
+			}
+			if (Arrays.equals(inputColors, gameColors)) {
+				
+				tries = win(tries);
+			}
+		}
 	}
 	
 	public static void main(String[] args) {
 		
+		Mastermind mind = new Mastermind();
+		
+		mind.rng();
+		
 		System.out.print("Number of Tries:");
-		int tries = in.nextInt();
+		int tries = mind.in.nextInt();
 		
-		for (int i = 0; i < tries; i++) {
-			
-			System.out.print("\nGuess a Color:");
-			String color = in.next();
-			System.out.print("Guess its Position:");
-			int position = in.nextInt();
+		mind.inputAndSearch(tries);
 		
-			int result = searchArray(position,color);
-		
-			if (matches == 9) {
-				System.out.print("You Win!");
-				break;
-			}
-			
-			System.out.println(color + " at position " + position + " is a: " + result + "\n");
-		}
 	}
 }
+//trouble shooting script
+//for (int print = 0; print <= 4; print++) {
+//	 System.out.print("\n" +mind.gameColors[print] + " ");
+//	 }

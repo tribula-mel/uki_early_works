@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class DatabasePrecise {
 	
-	private String[] database = new String[] {"lol","lul","lml","lmao","lal"};	
+	private String[] database = new String[] {"lol","loooool","lmao","lol xd","lal"};	
 	private String[] storage = new String[] {"", "", "", "", "", "", ""};
 	
 	
@@ -14,7 +14,7 @@ public class DatabasePrecise {
 			
 			for (int z = 0; length - 1 >= z; z++) {
 			
-				if (((database[y].charAt(z) == input.charAt(z)) || ((input.charAt(z) == '_') && (input.charAt(z) != ' '))) && (input.length() == database[y].length())) {
+				if ((database[y].charAt(z) == input.charAt(z)) || ((input.charAt(z) == '_') && (input.charAt(z) != ' ')) && (input.length() == database[y].length())) {
 				
 					storage[y] = database[y];
 				
@@ -22,7 +22,6 @@ public class DatabasePrecise {
 				
 					storage[y] = "";
 					break;
-					
 				}
 				
 			}
@@ -44,7 +43,7 @@ public class DatabasePrecise {
       System.out.println("your input: " + in);
 		data.searchDatabase(in, in.length());
 
-		for (int x = 0; data.database.length > x; x++) {
+		for (int x = 0; x < 5; x++) {
 			System.out.println(data.storage[x]);
 		}
 
